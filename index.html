@@ -3,15 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ersa Bilişim | Bilişim Çözümleri</title>
+    <title>ERSA BT | Bilişim Danışmanlığı</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* TEMEL STİLLER */
         :root {
-            --primary: #2563eb;
-            --secondary: #1e40af;
-            --dark: #1e293b;
-            --light: #f8fafc;
-            --gray: #94a3b8;
+            --dark: #0a192f;     /* Gece mavisi */
+            --primary: #00d1ff;  /* Neon mavi */
+            --secondary: #64ffda; /* Açık turkuaz */
+            --light: #ccd6f6;    /* Açık metin */
+            --gray: #8892b0;     /* Gri */
+            --dark-gray: #1a2a45; /* Koyu arkaplan */
         }
         * {
             margin: 0;
@@ -19,16 +21,14 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        body {
-            background-color: #f1f5f9;
-            color: var(--dark);
+        html {
+            scroll-behavior: smooth;
         }
-        header {
-            background-color: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+            line-height: 1.6;
         }
         .container {
             width: 100%;
@@ -36,265 +36,419 @@
             margin: 0 auto;
             padding: 0 20px;
         }
+        section {
+            min-height: 100vh;
+            padding: 100px 0;
+            position: relative;
+        }
+        h1 { font-size: 3.5rem; line-height: 1.2; }
+        h2 { font-size: 2.8rem; margin-bottom: 40px; color: var(--primary); position: relative; display: inline-block; }
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 70px;
+            height: 3px;
+            background: var(--secondary);
+        }
+        h3 { font-size: 1.8rem; margin-bottom: 20px; }
+        p { color: var(--gray); font-size: 1.1rem; }
+        .btn {
+            display: inline-block;
+            background: transparent;
+            color: var(--primary);
+            padding: 15px 35px;
+            border: 1px solid var(--primary);
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background: rgba(0, 209, 255, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 209, 255, 0.2);
+        }
+        .btn-filled {
+            background: var(--primary);
+            color: var(--dark);
+            font-weight: 600;
+        }
+        .btn-filled:hover {
+            background: #00b8e6;
+        }
+
+        /* NAVBAR */
+        header {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        header.scrolled {
+            background-color: rgba(10, 25, 47, 0.95);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            padding: 15px 0;
+        }
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 0;
+            padding: 25px 0;
         }
         .logo {
-            font-size: 24px;
+            font-size: 1.8rem;
             font-weight: 700;
             color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
         }
-        .logo span {
-            color: var(--secondary);
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
         }
         .nav-links {
             display: flex;
-            gap: 30px;
+            gap: 40px;
         }
         .nav-links a {
+            color: var(--light);
             text-decoration: none;
-            color: var(--dark);
             font-weight: 500;
-            transition: color 0.3s;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            position: relative;
         }
-        .nav-links a:hover {
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+        .nav-links a:hover,
+        .nav-links a.active {
             color: var(--primary);
         }
-        .hero {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: white;
-            padding: 80px 0;
-            text-align: center;
-        }
-        .hero h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
-        }
-        .hero p {
-            font-size: 20px;
-            max-width: 800px;
-            margin: 0 auto 30px;
-        }
-        .btn {
-            display: inline-block;
-            background-color: white;
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
             color: var(--primary);
-            padding: 12px 30px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
+            font-size: 1.5rem;
+            cursor: pointer;
         }
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
-        section {
-            padding: 80px 0;
-        }
-        .section-title {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-        .section-title h2 {
-            font-size: 36px;
-            color: var(--dark);
-            margin-bottom: 15px;
-        }
-        .section-title p {
-            color: var(--gray);
-            max-width: 700px;
-            margin: 0 auto;
-        }
-        .about-content {
+
+        /* HERO BÖLÜMÜ */
+        #hero {
+            background: linear-gradient(rgba(10, 25, 47, 0.9), rgba(10, 25, 47, 0.95)), 
+                        url('https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500') no-repeat center/cover;
             display: flex;
             align-items: center;
-            gap: 50px;
+            text-align: left;
         }
-        .about-text {
-            flex: 1;
+        .hero-content {
+            max-width: 800px;
         }
-        .about-text h3 {
-            font-size: 28px;
-            margin-bottom: 20px;
-            color: var(--dark);
+        .hero-content h1 {
+            margin-bottom: 25px;
+            font-weight: 700;
         }
-        .about-text p {
-            margin-bottom: 15px;
-            line-height: 1.6;
+        .hero-content h1 span {
+            color: var(--primary);
         }
-        .about-image {
-            flex: 1;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        .hero-content p {
+            margin-bottom: 40px;
+            font-size: 1.2rem;
+            max-width: 600px;
         }
-        .about-image img {
-            width: 100%;
-            height: auto;
-            display: block;
+        .hero-btns {
+            display: flex;
+            gap: 20px;
         }
-        .services {
-            background-color: white;
+        .hero-image {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 45%;
+            animation: float 6s ease-in-out infinite;
         }
-        .services-grid {
+        @keyframes float {
+            0% { transform: translateY(-50%) translateX(0); }
+            50% { transform: translateY(-50%) translateX(-20px); }
+            100% { transform: translateY(-50%) translateX(0); }
+        }
+
+        /* HİZMETLER */
+        #services {
+            background-color: var(--dark-gray);
+        }
+        .services-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 30px;
         }
         .service-card {
-            background-color: white;
-            border-radius: 10px;
+            background: rgba(100, 255, 255, 0.03);
+            border: 1px solid rgba(0, 209, 255, 0.1);
+            border-radius: 15px;
+            padding: 40px 30px;
+            transition: all 0.4s ease;
+            position: relative;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            transition: all 0.3s;
         }
         .service-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            border-color: var(--primary);
+            box-shadow: 0 15px 30px rgba(0, 209, 255, 0.1);
         }
-        .service-header {
-            padding: 20px;
-            background-color: var(--primary);
-            color: white;
-            cursor: pointer;
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 209, 255, 0.05) 0%, transparent 100%);
+            z-index: -1;
+        }
+        .service-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 25px;
+        }
+        .service-card h3 {
+            margin-bottom: 20px;
+        }
+        .service-card ul {
+            list-style: none;
+            margin-top: 20px;
+        }
+        .service-card ul li {
+            margin-bottom: 12px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
         }
-        .service-header h3 {
-            font-size: 20px;
+        .service-card ul li::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: var(--secondary);
+            margin-right: 10px;
+            font-size: 0.9rem;
         }
-        .service-header i {
-            transition: transform 0.3s;
+
+        /* TEKNOLOJİLER */
+        #technologies {
+            background-color: var(--dark);
         }
-        .service-content {
-            padding: 0 20px;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out, padding 0.3s ease;
-        }
-        .service-card.active .service-content {
-            padding: 20px;
-            max-height: 500px;
-        }
-        .service-card.active .service-header i {
-            transform: rotate(180deg);
-        }
-        .partners {
-            background-color: #f1f5f9;
-        }
-        .partners-grid {
+        .tech-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 30px;
-            align-items: center;
+            margin-top: 50px;
         }
-        .partner-logo {
-            background-color: white;
-            padding: 20px;
-            border-radius: 5px;
+        .tech-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(100, 255, 255, 0.03);
+            border-radius: 10px;
+            padding: 30px 20px;
+            transition: all 0.3s ease;
+        }
+        .tech-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 209, 255, 0.1);
+        }
+        .tech-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        .tech-item img {
+            height: 60px;
+            margin-bottom: 15px;
+            filter: grayscale(100%) brightness(2);
+            transition: all 0.3s ease;
+        }
+        .tech-item:hover img {
+            filter: grayscale(0) brightness(1);
+        }
+
+        /* EKİP */
+        #team {
+            background: linear-gradient(to bottom, var(--dark), #020c1b);
+        }
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+        }
+        .team-member {
+            text-align: center;
+            background: rgba(100, 255, 255, 0.03);
+            border-radius: 15px;
+            padding: 30px;
+            transition: all 0.4s ease;
+        }
+        .team-member:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 209, 255, 0.1);
+        }
+        .member-image {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary);
+            margin: 0 auto 25px;
+            transition: all 0.4s ease;
+        }
+        .team-member:hover .member-image {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(0, 209, 255, 0.3);
+        }
+        .member-name {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        .member-position {
+            color: var(--primary);
+            font-weight: 500;
+            margin-bottom: 20px;
+            display: block;
+        }
+        .member-social {
             display: flex;
             justify-content: center;
-            align-items: center;
-            height: 100px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            transition: all 0.3s;
+            gap: 15px;
         }
-        .partner-logo:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        .member-social a {
+            color: var(--light);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
         }
-        .partner-logo img {
-            max-width: 100%;
-            max-height: 60px;
-            filter: grayscale(100%);
-            opacity: 0.7;
-            transition: all 0.3s;
+        .member-social a:hover {
+            color: var(--primary);
+            transform: translateY(-3px);
         }
-        .partner-logo:hover img {
-            filter: grayscale(0%);
-            opacity: 1;
+
+        /* İLETİŞİM */
+        #contact {
+            background-color: #020c1b;
         }
-        .contact {
-            background-color: white;
-        }
-        .contact-grid {
+        .contact-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+            gap: 50px;
         }
         .contact-info {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 30px;
         }
         .contact-item {
             display: flex;
             align-items: flex-start;
-            gap: 15px;
+            gap: 20px;
         }
         .contact-icon {
-            background-color: var(--primary);
-            color: white;
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 209, 255, 0.1);
             border-radius: 50%;
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--primary);
             flex-shrink: 0;
         }
-        .contact-text h4 {
+        .contact-text h3 {
+            font-size: 1.3rem;
             margin-bottom: 5px;
-            color: var(--dark);
         }
-        .contact-text p, .contact-text a {
+        .contact-text a {
             color: var(--gray);
             text-decoration: none;
-            transition: color 0.3s;
+            transition: all 0.3s ease;
         }
         .contact-text a:hover {
             color: var(--primary);
         }
         .contact-form {
-            background-color: #f8fafc;
-            padding: 30px;
-            border-radius: 10px;
+            background: rgba(100, 255, 255, 0.03);
+            border-radius: 15px;
+            padding: 40px;
         }
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
         .form-group label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
             font-weight: 500;
         }
         .form-group input,
-        .form-group textarea {
+        .form-group textarea,
+        .form-group select {
             width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #e2e8f0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 209, 255, 0.2);
             border-radius: 5px;
-            font-size: 16px;
-            transition: border-color 0.3s;
+            color: var(--light);
+            font-size: 1rem;
+            transition: all 0.3s ease;
         }
         .form-group input:focus,
-        .form-group textarea:focus {
+        .form-group textarea:focus,
+        .form-group select:focus {
             outline: none;
             border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(0, 209, 255, 0.2);
         }
         .form-group textarea {
             min-height: 150px;
             resize: vertical;
         }
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary);
+            color: var(--dark);
+            font-weight: 600;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .submit-btn:hover {
+            background: #00b8e6;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 209, 255, 0.3);
+        }
+
+        /* FOOTER */
         footer {
-            background-color: var(--dark);
-            color: white;
-            padding: 60px 0 20px;
+            background: #020c1b;
+            padding: 50px 0 20px;
+            border-top: 1px solid rgba(0, 209, 255, 0.1);
         }
         .footer-grid {
             display: grid;
@@ -303,411 +457,573 @@
             margin-bottom: 40px;
         }
         .footer-col h4 {
-            font-size: 18px;
-            margin-bottom: 20px;
+            font-size: 1.3rem;
+            margin-bottom: 25px;
             position: relative;
             padding-bottom: 10px;
         }
         .footer-col h4::after {
             content: '';
             position: absolute;
-            left: 0;
             bottom: 0;
+            left: 0;
             width: 50px;
             height: 2px;
-            background-color: var(--primary);
+            background: var(--primary);
         }
         .footer-col ul {
             list-style: none;
         }
         .footer-col ul li {
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
         .footer-col ul li a {
-            color: #cbd5e1;
+            color: var(--gray);
             text-decoration: none;
-            transition: color 0.3s;
+            transition: all 0.3s ease;
         }
         .footer-col ul li a:hover {
-            color: white;
+            color: var(--primary);
+            padding-left: 5px;
         }
         .social-links {
             display: flex;
             gap: 15px;
+            margin-top: 20px;
         }
         .social-links a {
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             width: 40px;
             height: 40px;
-            background-color: #334155;
+            background: rgba(0, 209, 255, 0.1);
             border-radius: 50%;
-            color: white;
-            transition: all 0.3s;
+            color: var(--light);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
         }
         .social-links a:hover {
-            background-color: var(--primary);
+            background: var(--primary);
+            color: var(--dark);
             transform: translateY(-3px);
         }
         .copyright {
             text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid #334155;
-            color: #94a3b8;
-            font-size: 14px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(0, 209, 255, 0.1);
+            color: var(--gray);
+            font-size: 0.9rem;
         }
-        @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                gap: 20px;
+
+        /* ANİMASYONLAR */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
             }
-            .nav-links {
-                flex-direction: column;
-                gap: 15px;
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate {
+            animation: fadeInUp 1s ease forwards;
+        }
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+
+        /* RESPONSIVE */
+        @media (max-width: 992px) {
+            h1 { font-size: 2.8rem; }
+            h2 { font-size: 2.2rem; }
+            .hero-image {
+                display: none;
+            }
+            .hero-content {
+                max-width: 100%;
                 text-align: center;
             }
-            .hero h1 {
-                font-size: 36px;
+            .hero-btns {
+                justify-content: center;
             }
-            .hero p {
-                font-size: 18px;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 0;
             }
-            .about-content {
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: var(--dark);
                 flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 30px;
+                transition: all 0.5s ease;
             }
-            .section-title h2 {
-                font-size: 30px;
+            .nav-links.active {
+                left: 0;
+            }
+            .mobile-menu-btn {
+                display: block;
+            }
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+            .service-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            h1 { font-size: 2.2rem; }
+            h2 { font-size: 1.8rem; }
+            section {
+                padding: 80px 0;
+            }
+            .hero-btns {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .btn {
+                width: 100%;
+                text-align: center;
             }
         }
     </style>
 </head>
 <body>
-    <header>
+    <!-- NAVBAR -->
+    <header id="navbar">
         <div class="container">
             <nav class="navbar">
-                <div class="logo">ERSA <span>BİLİŞİM</span></div>
+                <a href="#" class="logo">
+                                        <span>ERSA BT</span>
+                </a>
                 <div class="nav-links">
-                    <a href="#about">Hakkımızda</a>
+                    <a href="#hero" class="active">Ana Sayfa</a>
                     <a href="#services">Hizmetler</a>
-                    <a href="#partners">İş Ortaklarımız</a>
+                    <a href="#technologies">Teknolojiler</a>
+                    <a href="#team">Ekip</a>
                     <a href="#contact">İletişim</a>
                 </div>
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
             </nav>
         </div>
     </header>
 
-    <section class="hero">
+    <!-- HERO BÖLÜMÜ -->
+    <section id="hero">
         <div class="container">
-            <h1>Bilişim Çözümlerinde Güvenilir Adresiniz</h1>
-            <p>Teknolojiyi işinizin hizmetine sunuyor, kurumsal ihtiyaçlarınıza özel çözümler üretiyoruz.</p>
-            <a href="#contact" class="btn">Hemen Teklif Alın</a>
-        </div>
+            <div class="hero-content animate">
+                <h1>Bilişim Teknolojilerinde <span>Yeni Nesil Çözümler</span></h1>
+                <p>ERSA BT olarak, kurumsal BT altyapılarınızı güvenle yönetiyor ve geleceğe taşıyoruz. 20+ yıllık deneyimimizle size özel çözümler sunuyoruz.</p>
+                <div class="hero-btns">
+                    <a href="#contact" class="btn btn-filled">Teklif Alın</a>
+                    <a href="#services" class="btn">Hizmetlerimiz</a>
+                </div>
+            </div>
+                    </div>
     </section>
 
-    <section id="about" class="about">
+    <!-- HİZMETLER -->
+    <section id="services">
         <div class="container">
-            <div class="section-title">
-                <h2>Hakkımızda</h2>
-                <p>Ersa Bilişim olarak sektördeki tecrübemiz ve uzman kadromuzla hizmet veriyoruz.</p>
-            </div>
-            <div class="about-content">
-                <div class="about-text">
-                    <h3>Kaliteli Hizmet, Güvenilir Çözümler</h3>
-                    <p>Ersa Bilişim, 2022 yılından bu yana bilişim sektöründe faaliyet gösteren, müşteri memnuniyetini ön planda tutan bir şirkettir. Uzman ekibimizle kurumsal ve bireysel müşterilerimize en iyi hizmeti sunmayı hedefliyoruz.</p>
-                    <p>Teknolojinin hızla geliştiği günümüzde, müşterilerimizin ihtiyaçlarına uygun çözümler üretmek ve onları geleceğe hazırlamak temel prensibimizdir.</p>
-                    <p>BT danışmanlığından teknik servis hizmetlerine kadar geniş bir yelpazede hizmet sunmaktayız.</p>
+            <h2 class="animate">Hizmetlerimiz</h2>
+            <p class="animate delay-1">Kurumsal ihtiyaçlarınıza özel geliştirdiğimiz profesyonel çözümler</p>
+            
+            <div class="services-container">
+                <div class="service-card animate delay-1">
+                    <div class="service-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Siber Güvenlik</h3>
+                    <p>Kurumsal ağınızı siber tehditlere karşı koruyor, güvenlik açıklarını kapatıyoruz.</p>
+                    <ul>
+                        <li>Ağ Güvenlik Duvarı Yönetimi</li>
+                        <li>Sızma Testleri ve Güvenlik Denetimi</li>
+                        <li>ISO 27001 Uyumluluk Danışmanlığı</li>
+                        <li>7/24 Güvenlik İzleme</li>
+                    </ul>
                 </div>
-                <div class="about-image">
-                    <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Ersa Bilişim Ekibi">
+                
+                <div class="service-card animate delay-2">
+                    <div class="service-icon">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    <h3>Bulut Çözümleri</h3>
+                    <p>Esnek ve güvenli bulut altyapıları kuruyor, iş sürekliliğinizi sağlıyoruz.</p>
+                    <ul>
+                        <li>Azure & AWS Danışmanlığı</li>
+                        <li>Hybrid Bulut Mimari Tasarımı</li>
+                        <li>Bulut Geçiş ve Entegrasyon</li>
+                        <li>Maliyet Optimizasyonu</li>
+                    </ul>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="services" class="services">
-        <div class="container">
-            <div class="section-title">
-                <h2>Hizmetlerimiz</h2>
-                <p>İşletmenizin ihtiyaç duyduğu tüm bilişim hizmetlerini tek çatı altında sunuyoruz.</p>
-            </div>
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-header">
-                        <h3>BT Danışmanlığı</h3>
-                        <i class="fas fa-chevron-down"></i>
+                
+                <div class="service-card animate delay-3">
+                    <div class="service-icon">
+                        <i class="fas fa-network-wired"></i>
                     </div>
-                    <div class="service-content">
-                        <p>Kurumsal BT altyapınızın analizini yapıyor, ihtiyaçlarınıza uygun çözümler sunuyoruz. Ağ yapılandırması, sunucu optimizasyonu, bulut çözümleri ve siber güvenlik konularında uzman danışmanlık hizmeti veriyoruz.</p>
-                        <ul>
-                            <li>Ağ altyapısı analizi ve iyileştirme</li>
-                            <li>Siber güvenlik denetimleri</li>
-                            <li>Bulut bilişim çözümleri</li>
-                            <li>BT süreç yönetimi</li>
-                        </ul>
-                    </div>
+                    <h3>Ağ Altyapısı</h3>
+                    <p>Yüksek performanslı network çözümleri ile kesintisiz bağlantı sağlıyoruz.</p>
+                    <ul>
+                        <li>Kurumsal Ağ Tasarımı</li>
+                        <li>Kablolama ve Rack Sistemleri</li>
+                        <li>SD-WAN Çözümleri</li>
+                        <li>Kablosuz Ağ Optimizasyonu</li>
+                    </ul>
                 </div>
-                <div class="service-card">
-                    <div class="service-header">
-                        <h3>Güvenlik Kamera Sistemleri</h3>
-                        <i class="fas fa-chevron-down"></i>
+                
+                <div class="service-card animate delay-1">
+                    <div class="service-icon">
+                        <i class="fas fa-server"></i>
                     </div>
-                    <div class="service-content">
-                        <p>IP kamera sistemleri, analog kamera sistemleri, plaka tanıma sistemleri ve akıllı video analiz çözümleri sunuyoruz. İhtiyacınıza uygun en iyi güvenlik çözümünü belirliyor, kurulum ve bakım hizmetlerini sağlıyoruz.</p>
-                        <ul>
-                            <li>IP kamera sistemleri</li>
-                            <li>Plaka tanıma sistemleri</li>
-                            <li>Video yönetim yazılımları</li>
-                            <li>Akıllı video analiz</li>
-                        </ul>
-                    </div>
+                    <h3>Sunucu Yönetimi</h3>
+                    <p>7/24 kesintisiz sunucu hizmetleri ile iş sürekliliğinizi garanti altına alıyoruz.</p>
+                    <ul>
+                        <li>Fiziksel ve Sanal Sunucu Yönetimi</li>
+                        <li>Yedekleme ve Felaket Kurtarma</li>
+                        <li>Performans İzleme ve Optimizasyon</li>
+                        <li>Hyper-Converged Altyapılar</li>
+                    </ul>
                 </div>
-                <div class="service-card">
-                    <div class="service-header">
-                        <h3>Kablolama Sistemleri</h3>
-                        <i class="fas fa-chevron-down"></i>
+                
+                <div class="service-card animate delay-2">
+                    <div class="service-icon">
+                        <i class="fas fa-database"></i>
                     </div>
-                    <div class="service-content">
-                        <p>Kurumsal ağ kablolama sistemleri, fiber optik altyapı çözümleri ve veri merkezi kablolama hizmetleri sunuyoruz. CAT6, CAT6A ve CAT7 standartlarında yapısal kablolama sistemleri ile yüksek performanslı ağ altyapıları kuruyoruz.</p>
-                        <ul>
-                            <li>Yapısal kablolama sistemleri</li>
-                            <li>Fiber optik altyapı çözümleri</li>
-                            <li>Veri merkezi kablolama</li>
-                            <li>Kablolama test ve belgelendirme</li>
-                        </ul>
-                    </div>
+                    <h3>Veri Yönetimi</h3>
+                    <p>Verilerinizi güvenle saklıyor, analiz ediyor ve yönetiyoruz.</p>
+                    <ul>
+                        <li>Veritabanı Yönetimi</li>
+                        <li>Büyük Veri Çözümleri</li>
+                        <li>Veri Ambarı ve BI Çözümleri</li>
+                        <li>Veri Güvenliği ve Şifreleme</li>
+                    </ul>
                 </div>
-                <div class="service-card">
-                    <div class="service-header">
-                        <h3>Sunucu Kiralama</h3>
-                        <i class="fas fa-chevron-down"></i>
+                
+                <div class="service-card animate delay-3">
+                    <div class="service-icon">
+                        <i class="fas fa-headset"></i>
                     </div>
-                    <div class="service-content">
-                        <p>Fiziksel sunucu kiralama, bulut sunucu çözümleri ve hibrit sunucu sistemleri sunuyoruz. Yüksek performanslı donanımlarımız ve 7/24 teknik desteğimizle işletmenizin kesintisiz çalışmasını sağlıyoruz.</p>
-                        <ul>
-                            <li>Fiziksel sunucu kiralama</li>
-                            <li>Bulut sunucu çözümleri</li>
-                            <li>Özel sunucu konfigürasyonları</li>
-                            <li>7/24 teknik destek</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="service-card">
-                    <div class="service-header">
-                        <h3>Teknik Servis</h3>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="service-content">
-                        <p>Bilgisayar, yazıcı, sunucu ve network ekipmanlarının tamir ve bakım hizmetlerini sunuyoruz. Yetkili teknik servis ekibimizle hızlı ve güvenilir çözümler üretiyor, donanım ve yazılım sorunlarınızı çözüyoruz.</p>
-                        <ul>
-                            <li>Bilgisayar tamir ve bakım</li>
-                            <li>Yazıcı arıza giderme</li>
-                            <li>Sunucu sorun giderme</li>
-                            <li>Network ekipman tamiri</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="service-card">
-                    <div class="service-header">
-                        <h3>Yedek Parça & Çevre Birimleri</h3>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="service-content">
-                        <p>Orijinal ve uyumlu yedek parçalar, bilgisayar çevre birimleri ve aksesuarlar sunuyoruz. İhtiyacınız olan tüm donanım bileşenlerini stoklarımızda bulabilir, hızlı teslimat avantajından yararlanabilirsiniz.</p>
-                        <ul>
-                            <li>Orijinal yedek parçalar</li>
-                            <li>Bilgisayar bileşenleri</li>
-                            <li>Depolama çözümleri</li>
-                            <li>Ağ ekipmanları</li>
-                        </ul>
-                    </div>
+                    <h3>Teknik Destek</h3>
+                    <p>7/24 teknik destek ekibimizle her an yanınızdayız.</p>
+                    <ul>
+                        <li>Uzaktan Destek Hizmetleri</li>
+                        <li>Saha Destek Ekibi</li>
+                        <li>ITIL Uyumlu Servis Yönetimi</li>
+                        <li>Önleyici Bakım Hizmetleri</li>
+                    </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="partners" class="partners">
+    <!-- TEKNOLOJİLER -->
+    <section id="technologies">
         <div class="container">
-            <div class="section-title">
-                <h2>İş Ortaklarımız</h2>
-                <p>Dünyanın önde gelen teknoloji markalarıyla iş birliği içerisindeyiz.</p>
-            </div>
-            <div class="partners-grid">
-                <div class="partner-logo">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Dell_Logo.svg/1280px-Dell_Logo.svg.png" alt="Dell">
+            <h2 class="animate">Çalıştığımız Teknolojiler</h2>
+            <p class="animate delay-1">Dünyanın önde gelen teknoloji markalarıyla iş ortaklığı</p>
+            
+            <div class="tech-grid">
+                <div class="tech-item animate delay-1">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Microsoft_Azure_Logo.svg/1200px-Microsoft_Azure_Logo.svg.png" alt="Microsoft Azure">
+                    <span>Microsoft Azure</span>
                 </div>
-                <div class="partner-logo">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/HP_logo_2012.svg/1280px-HP_logo_2012.svg.png" alt="HP">
+                <div class="tech-item animate delay-2">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Amazon_Web_Services_Logo.svg/1200px-Amazon_Web_Services_Logo.svg.png" alt="AWS">
+                    <span>AWS</span>
                 </div>
-                <div class="partner-logo">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Microsoft_logo_%282012%29.svg/1280px-Microsoft_logo_%282012%29.svg.png" alt="Microsoft">
+                <div class="tech-item animate delay-3">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/SAP_logo.svg/1200px-SAP_logo.svg.png" alt="SAP">
+                    <span>SAP</span>
                 </div>
-                <div class="partner-logo">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Fortinet_logo.svg/1280px-Fortinet_logo.svg.png" alt="Fortinet">
+                <div class="tech-item animate delay-1">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Laravel.svg/1200px-Laravel.svg.png" alt="Laravel">
+                    <span>Laravel</span>
                 </div>
-                <div class="partner-logo">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Sophos_logo.svg/1280px-Sophos_logo.svg.png" alt="Sophos">
+                <div class="tech-item animate delay-2">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/R_logo.svg/1200px-R_logo.svg.png" alt="R Language">
+                    <span>R Language</span>
                 </div>
-                <div class="partner-logo">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/WatchGuard_logo.svg/1280px-WatchGuard_logo.svg.png" alt="WatchGuard">
+                <div class="tech-item animate delay-3">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Fortinet_logo.svg/1200px-Fortinet_logo.svg.png" alt="Fortinet">
+                    <span>Fortinet</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="contact" class="contact">
+    <!-- EKİP -->
+    <section id="team">
         <div class="container">
-            <div class="section-title">
-                <h2>İletişim</h2>
-                <p>Bizimle iletişime geçmek için aşağıdaki bilgileri kullanabilir veya iletişim formunu doldurabilirsiniz.</p>
+            <h2 class="animate">Ekibimiz</h2>
+            <p class="animate delay-1">Alanında uzman ekibimizle hizmetinizdeyiz</p>
+            
+            <div class="team-grid">
+                <div class="team-member animate delay-1">
+                    <img src= alt="Ersin Yılmaz Kartop" class="member-image">
+                    <h3 class="member-name">Ersin Yılmaz Kartop</h3>
+                    <span class="member-position">CTO & Kurucu Ortak</span>
+                    <p>25+ yıllık BT deneyimi ile şirketimizin teknoloji vizyonunu belirliyor.</p>
+                    <div class="member-social">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+                
+                <div class="team-member animate delay-2">
+                    <img src= alt="Salih Şimşek" class="member-image">
+                    <h3 class="member-name">Salih Şimşek</h3>
+                    <span class="member-position">Bİlgi Teknolojileri Teknisyeni</span>
+                    <p></p>
+                    <div class="member-social">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+                
+                <div class="team-member animate delay-3">
+                    <img src= alt="Mehmet Yılmaz" class="member-image">
+                    <h3 class="member-name"></h3>
+                    <span class="member-position">Bulut Çözümleri Mimarı</span>
+                    <p></p>
+                    <div class="member-social">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
             </div>
-            <div class="contact-grid">
-                <div class="contact-info">
+        </div>
+    </section>
+
+    <!-- İLETİŞİM -->
+    <section id="contact">
+        <div class="container">
+            <h2 class="animate">İletişim</h2>
+            <p class="animate delay-1">Bize ulaşın, projenizi birlikte değerlendirelim</p>
+            
+            <div class="contact-container">
+                <div class="contact-info animate delay-1">
                     <div class="contact-item">
                         <div class="contact-icon">
                             <i class="fas fa-map-marker-alt"></i>
                         </div>
                         <div class="contact-text">
-                            <h4>Adres</h4>
-                            <p>Uğurmumcu Mh. Fatih Sultan Mehmet Cd No<br>İstanbul / Türkiye</p>
+                            <h3>Adres</h3>
+                            <p>İstanbul</p>
                         </div>
                     </div>
+                    
                     <div class="contact-item">
                         <div class="contact-icon">
                             <i class="fas fa-phone-alt"></i>
                         </div>
                         <div class="contact-text">
-                            <h4>Telefon</h4>
-                            <p><a href="tel:+905536600102">+90 553 660 01 02</a></p>
+                            <h3>Telefon</h3>
+                            <p><a href="tel:+902123456789">+90 212 xxx xx xx</a></p>
+                            <p><a href="tel:+905554443322">+90 555 xxx xx xx</a> (Mobil)</p>
                         </div>
                     </div>
+                    
                     <div class="contact-item">
                         <div class="contact-icon">
                             <i class="fas fa-envelope"></i>
                         </div>
                         <div class="contact-text">
-                            <h4>E-posta</h4>
-                            <p><a href="mailto:info@ersabilisim.com">info@ersabt.com</a></p>
+                            <h3>E-posta</h3>
+                            <p><a href="mailto:info@ersabt.com">info@ersabt.com</a></p>
+                            <p><a href="mailto:destek@ersabt.com">destek@ersabt.com</a></p>
                         </div>
                     </div>
+                    
                     <div class="contact-item">
                         <div class="contact-icon">
                             <i class="fas fa-clock"></i>
                         </div>
                         <div class="contact-text">
-                            <h4>Çalışma Saatleri</h4>
-                            <p>Pazartesi - Cuma: 09:00 - 18:00<br></p>
+                            <h3>Çalışma Saatleri</h3>
+                            <p>Pazartesi - Cuma: 09:00 - 18:00</p>
+                            <p>Cumartesi: 10:00 - 15:00</p>
                         </div>
                     </div>
                 </div>
-                <div class="contact-form">
-                    <form>
+                
+                <div class="contact-form animate delay-2">
+                    <form id="contactForm">
                         <div class="form-group">
                             <label for="name">Adınız Soyadınız</label>
-                            <input type="text" id="name" name="name" required>
+                            <input type="text" id="name" required>
                         </div>
                         <div class="form-group">
                             <label for="email">E-posta Adresiniz</label>
-                            <input type="email" id="email" name="email" required>
+                            <input type="email" id="email" required>
                         </div>
                         <div class="form-group">
                             <label for="phone">Telefon Numaranız</label>
-                            <input type="tel" id="phone" name="phone">
+                            <input type="tel" id="phone">
                         </div>
                         <div class="form-group">
-                            <label for="subject">Konu</label>
-                            <input type="text" id="subject" name="subject">
+                            <label for="service">İlgilendiğiniz Hizmet</label>
+                            <select id="service" required>
+                                <option value="">Seçiniz...</option>
+                                <option value="siber-guvenlik">Siber Güvenlik</option>
+                                <option value="bulut-cozumleri">Bulut Çözümleri</option>
+                                <option value="ag-altyapisi">Ağ Altyapısı</option>
+                                <option value="sunucu-yonetimi">Sunucu Yönetimi</option>
+                                <option value="veri-yonetimi">Veri Yönetimi</option>
+                                <option value="teknik-destek">Teknik Destek</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="message">Mesajınız</label>
-                            <textarea id="message" name="message" required></textarea>
+                            <textarea id="message" required></textarea>
                         </div>
-                        <button type="submit" class="btn">Mesaj Gönder</button>
+                        <button type="submit" class="submit-btn">Mesaj Gönder</button>
                     </form>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- FOOTER -->
     <footer>
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
-                    <h4>Ersa Bilişim</h4>
-                    <p>Teknolojiyi işinizin hizmetine sunuyor, kurumsal ihtiyaçlarınıza özel çözümler üretiyoruz.</p>
+                    <h4>ERSA BT</h4>
+                    <p>Bilişim teknolojilerinde çözüm ortağınız. Kurumsal ihtiyaçlarınıza özel geliştirdiğimiz profesyonel çözümler.</p>
                     <div class="social-links">
                         <a href="#"><i class="fab fa-facebook-f"></i></a>
                         <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
                         <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
+                
                 <div class="footer-col">
                     <h4>Hızlı Linkler</h4>
                     <ul>
-                        <li><a href="#about">Hakkımızda</a></li>
+                        <li><a href="#hero">Ana Sayfa</a></li>
                         <li><a href="#services">Hizmetlerimiz</a></li>
-                        <li><a href="#partners">İş Ortaklarımız</a></li>
+                        <li><a href="#technologies">Teknolojiler</a></li>
+                        <li><a href="#team">Ekibimiz</a></li>
                         <li><a href="#contact">İletişim</a></li>
                     </ul>
                 </div>
+                
                 <div class="footer-col">
                     <h4>Hizmetlerimiz</h4>
                     <ul>
-                        <li><a href="#">BT Danışmanlığı</a></li>
-                        <li><a href="#">Güvenlik Kamera Sistemleri</a></li>
-                        <li><a href="#">Kablolama Sistemleri</a></li>
-                        <li><a href="#">Sunucu Kiralama</a></li>
-                        <li><a href="#">Teknik Servis</a></li>
-                        <li><a href="#">Yedek Parça</a></li>
+                        <li><a href="#">Siber Güvenlik</a></li>
+                        <li><a href="#">Bulut Çözümleri</a></li>
+                        <li><a href="#">Ağ Altyapısı</a></li>
+                        <li><a href="#">Sunucu Yönetimi</a></li>
+                        <li><a href="#">Veri Yönetimi</a></li>
                     </ul>
                 </div>
+                
                 <div class="footer-col">
-                    <h4>İletişim</h4>
-                    <ul>
-                        <li><i class="fas fa-map-marker-alt"></i> Örnek Mahallesi, Teknoloji Cd. No:123</li>
-                        <li><i class="fas fa-phone-alt"></i> +90 212 345 67 89</li>
-                        <li><i class="fas fa-envelope"></i> info@ersabilisim.com</li>
-                    </ul>
+                    <h4>Bülten Aboneliği</h4>
+                    <p>Yeniliklerimizden haberdar olmak için e-posta listemize kaydolun.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="E-posta Adresiniz" required>
+                        <button type="submit" class="btn-filled">Abone Ol</button>
+                    </form>
                 </div>
             </div>
+            
             <div class="copyright">
-                <p>&copy; 2023 Ersa Bilişim. Tüm hakları saklıdır.</p>
+                <p>&copy; 2023 ERSA Bilişim Teknolojileri. Tüm hakları saklıdır.</p>
             </div>
         </div>
     </footer>
 
     <script>
-        // Açılır kapanır hizmet kartları
-        document.querySelectorAll('.service-header').forEach(header => {
-            header.addEventListener('click', () => {
-                const card = header.parentElement;
-                card.classList.toggle('active');
-                
-                // Diğer kartları kapat
-                document.querySelectorAll('.service-card').forEach(otherCard => {
-                    if (otherCard !== card) {
-                        otherCard.classList.remove('active');
-                    }
-                });
-            });
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            mobileMenuBtn.innerHTML = navLinks.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
         });
 
-        // Form gönderimi
-        const form = document.querySelector('form');
-        form.addEventListener('submit', (e) => {
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            header.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Form Submission
+        const contactForm = document.getElementById('contactForm');
+        contactForm.addEventListener('submit', (e) => {
             e.preventDefault();
             alert('Mesajınız başarıyla gönderildi! En kısa sürede sizinle iletişime geçeceğiz.');
-            form.reset();
+            contactForm.reset();
         });
 
-        // Yumuşak kaydırma
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+        // Newsletter Form
+        const newsletterForm = document.querySelector('.newsletter-form');
+        newsletterForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Bülten aboneliğiniz başarıyla alındı! Teşekkür ederiz.');
+            newsletterForm.reset();
+        });
+
+        // Animation on Scroll
+        const animateElements = document.querySelectorAll('.animate');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        animateElements.forEach(element => {
+            element.style.opacity = 0;
+            element.style.transform = 'translateY(30px)';
+            element.style.transition = 'all 0.8s ease';
+            observer.observe(element);
+        });
+
+        // Active Link Highlighting
+        const sections = document.querySelectorAll('section');
+        const navItems = document.querySelectorAll('.nav-links a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                
+                if (pageYOffset >= (sectionTop - 300)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('href') === `#${current}`) {
+                    item.classList.add('active');
+                }
             });
         });
     </script>
